@@ -1,15 +1,15 @@
 <div class="container my-5">
-	<div class="row">
-		<h1>Listagem de artigos</h1>
-	</div><!-- row -->
 
-	<?php  
+	<a href="/post/create" class="btn btn-primary mb-1 float-right">New post</a>
+	<h1><?= $this->getPageTitle(); ?></h1>
+
+	<?php   
 		foreach($this->view->posts as $post):
-	?>
-		<div class="row">
-			<h3 class="h3"><a href="/posts/<?= $post->id ?>/show"><?= $post->title ?></a></h3>
-			<p class="text-center"><?= $post->content ?></p>
-		</div><!-- row -->
+	?>	
+		<div class="my-5">
+		<h3 class="text-center"><a href="/post/<?= $post->id ?>/show"><?= $post->title ?></a></h3>
+		<p class="text-center"><?= $post->content ?></p>
 		<hr>
+		</div>
 	<?php endforeach; ?>
 </div><!-- container -->

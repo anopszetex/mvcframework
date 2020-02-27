@@ -7,7 +7,7 @@
 	class PostsController extends BaseController {
 
 		public function index() {
-			$this->setPageTitle('Posts | MVC Framework');
+			$this->setPageTitle('Posts');
 
 			$model = Container::getModel('Post');
 
@@ -24,6 +24,15 @@
 			$this->setPageTitle($this->view->post->title.' | MVC Framework');
 
 			return $this->renderView('posts/show', 'layout');
+		}
+
+		public function create() {
+			$this->setPageTitle('New post');
+			$this->renderView('posts/create', 'layout');
+		}
+
+		public function store($request) {
+			print_r($request->post);
 		}
 
 	}

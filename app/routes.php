@@ -9,7 +9,9 @@
 
 	$route[] = ['/', 'HomeController@index'];
 	$route[] = ['/posts', 'PostsController@index'];
-	$route[] = ['/posts/{id}/show', 'PostsController@show'];
+	$route[] = ['/post/{id}/show', 'PostsController@show'];
+	$route[] = ['/post/create', 'PostsController@create'];
+	$route[] = ['/post/store', 'PostsController@store'];
 
 	return $route;
 
