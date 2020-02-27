@@ -1,0 +1,29 @@
+@import "bootstrap.min.css";
+
+/* Custom Style */
+
+.row-button-20 {
+	margin-top: 20px;
+}
+
+/* Page not Found */
+
+.box-erro {
+	margin: 0 auto;
+	max-width: 600px;
+	padding: 0 2%;
+	text-align: center;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.box-erro h1 {
+	padding: 5px;
+	border-bottom: 1px solid #ccc;
+}
+
+/* Header */
+.navbar-brand, .nav-link {
+	outline: none;
+}

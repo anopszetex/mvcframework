@@ -1,0 +1,15 @@
+<div class="container my-5">
+	<div class="row">
+		<h1>Listagem de artigos</h1>
+	</div><!-- row -->
+
+	<?php  
+		foreach($this->view->posts as $post):
+	?>
+		<div class="row">
+			<h3 class="h3"><a href="/posts/<?= $post->id ?>/show"><?= $post->title ?></a></h3>
+			<p class="text-center"><?= $post->content ?></p>
+		</div><!-- row -->
+		<hr>
+	<?php endforeach; ?>
+</div><!-- container -->

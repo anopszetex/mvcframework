@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <title><?= $this->getPageTitle(); ?></title>
+    <meta name="keywords" content="<?= $this->getPageKeywords(); ?>">
+    <meta name="description" content="<?= $this->getPageDescription(); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/css/style.css">
+  </head>
+  <body>
+    <?php require_once(__DIR__.'/menu.phtml');  ?>
+
+    <?php $this->content(); ?>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+  </body>
+</html>
