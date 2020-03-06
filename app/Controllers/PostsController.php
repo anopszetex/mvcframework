@@ -3,37 +3,54 @@
 
 	use Core\BaseController;
 	use Core\Container;
+	use Core\Redirect;
 
 	class PostsController extends BaseController {
+
+		private $post;
+
+		public function __construct () {
+			parent::__construct();
+			$this->post = Container::getModel('Post');
+		}
 
 		public function index() {
 			$this->setPageTitle('Posts');
 
-			$model = Container::getModel('Post');
-
-			$this->view->posts = $model->All();
+			$this->view->posts = $this->post->All();
 
 			return $this->renderView('posts/index', 'layout');
 		}
 
 		public function show($id) {
-			$model = Container::getModel('Post');
+			$this->view->post = $this->post->find($id);
 
-			$this->view->post = $model->find($id);
-
-			$this->setPageTitle($this->view->post->title.' | MVC Framework');
-
-			return $this->renderView('posts/show', 'layout');
+			if(isset($this->view->post->title)) {
+				$this->setPageTitle($this->view->post->title.' | MVC Framework');
+				return $this->renderView('posts/show', 'layout');
+			} else {
+				return $this->renderView('404');
+			}
 		}
 
 		public function create() {
 			$this->setPageTitle('New post');
-			$this->renderView('posts/create', 'layout');
+			
+			return $this->renderView('posts/create', 'layout');
 		}
 
 		public function store($request) {
-			print_r($request->post);
+			$data = [
+				'title'   => $request->post->title,
+				'content' => $request->post->content
+			];
+
+			if($this->post->create($data))
+				Redirect::route('/posts');
+			else
+				die('Error: Create a new post has failed.');
 		}
+
 
 	}
 

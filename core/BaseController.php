@@ -7,7 +7,7 @@
 	*/
 
 	abstract class BaseController {
-
+		
 		protected $view;
 		
 		private $viewPath;

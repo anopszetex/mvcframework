@@ -32,7 +32,7 @@
 					return $pdo;
 
 				} catch (PDOException $exception) {
-					die($exception->getMessage());
+					die('Erro ao conectar');
 				}
 				
 			} else {
@@ -49,7 +49,7 @@
 					return $pdo;
 
 				} catch (PDOException $exception) {
-					die($exception->getMessage());
+					die('Erro ao conectar');
 				}
 
 			}

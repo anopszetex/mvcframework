@@ -36,6 +36,27 @@
 			return $result;
 		}
 
+		public function create(array $data) {
+			$data   = $this->prepareDataInsert($data);
+			$query  = "INSERT INTO {$this->table} ({$data[0]}) VALUES ({$data[1]})";
+			$stmt   = $this->pdo->prepare($query);
+			$result = $stmt->execute($data[2]);
+			$stmt->closeCursor();
+			return $result;
+		}
+
+		private function prepareDataInsert(array $data) {
+			$columns    = implode(', ', array_keys($data));
+			$values  	= ':'.implode(', :', array_keys($data));
+			$getValues  = array();
+
+			foreach($data as $key => $value) {
+				$getValues[':'.$key] = $value;
+			}
+
+			return [$columns, $values, $getValues];
+		}
+
 	}
 
 
