@@ -9,6 +9,9 @@
 		<div class="my-5">
 		<h3 class="text-center"><a href="/post/<?= $post->id ?>/show"><?= $post->title ?></a></h3>
 		<p class="text-center"><?= $post->content ?></p>
+		<p class="text-right">
+			<a href="/post/<?= $post->id ?>/edit" class="btn btn-warning btn-xs">Edit</a>
+		</p>
 		<hr>
 		</div>
 	<?php endforeach; ?>

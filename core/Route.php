@@ -39,7 +39,7 @@
 
 		private function instanceMethods($params, $controller, $action) {
 			$controller = Container::newController($controller);
-
+				
 			if(Container::isNotEmpty($params)) {
 				$sizeParams = count($params);
 				$oldString  = '';
@@ -50,9 +50,11 @@
 					$newString  = substr($oldString, 0, strlen($oldString) - 1);
 				}
 
+				print_r($getValue);
+
 				$getValue   = explode(',', $newString);
 				$getValue[] = $this->getRequest();
-
+				
 				call_user_func_array(array($controller, $action), $getValue);
 
 			} else {
@@ -95,6 +97,8 @@
 					$action	    = $route[2];
 					break;
 				}
+
+				$params = [];
 			}
 
 			($found) ? $this->instanceMethods($params, $controller, $action) : Container::pageNotFound();

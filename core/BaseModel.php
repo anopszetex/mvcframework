@@ -7,7 +7,7 @@
 
 	use PDO;
 
-	class BaseModel {
+	abstract class BaseModel {
 
 		private $pdo;
 		protected $table;
@@ -17,7 +17,7 @@
 		}
 
 		public function All() {
-			$query   = "SELECT * FROM {$this->table}";
+			$query   = "SELECT * FROM `{$this->table}`";
 			$stmt    = $this->pdo->prepare($query);
 			$stmt->execute();
 			$results = $stmt->fetchAll();
@@ -27,7 +27,7 @@
 		}
 
 		public function find($id) {
-			$query  = "SELECT * FROM {$this->table} WHERE id = :id";
+			$query  = "SELECT * FROM `{$this->table}` WHERE id = :id";
 			$stmt   = $this->pdo->prepare($query);
 			$stmt->execute(array(':id' => $id));
 			$result = $stmt->fetch(); 
@@ -38,11 +38,40 @@
 
 		public function create(array $data) {
 			$data   = $this->prepareDataInsert($data);
-			$query  = "INSERT INTO {$this->table} ({$data[0]}) VALUES ({$data[1]})";
+			$query  = "INSERT INTO `{$this->table}` ({$data[0]}) VALUES ({$data[1]})";
 			$stmt   = $this->pdo->prepare($query);
 			$result = $stmt->execute($data[2]);
 			$stmt->closeCursor();
 			return $result;
+		}
+
+		public function update(array $data, $id) {
+			$data   = $this->prepareDataUpdate($data, $id);
+			$query  = "UPDATE `{$this->table}` SET {$data[0]} WHERE id = :id";
+			$stmt   = $this->pdo->prepare($query);
+			$result = $stmt->execute($data[1]);
+			$stmt->closeCursor();
+			return $result;
+		}
+
+		private function prepareDataUpdate(array $data, $id) {
+			$columns = '';
+			$i 		 = 1;
+
+			foreach($data as $name => $value) {
+				$columns .= "{$name} = :{$name}";
+
+				if($i < count($data))
+					$columns .= ', ';
+					$i++;
+			}
+
+			foreach($data as $key => $value) {
+				$getValues[':'.$key] = $value;
+			}
+				$getValues[':id'] 	 = $id;
+
+			return [$columns, $getValues];
 		}
 
 		private function prepareDataInsert(array $data) {
@@ -56,6 +85,7 @@
 
 			return [$columns, $values, $getValues];
 		}
+
 
 	}
 

@@ -21,7 +21,7 @@
 			if(file_exists(__DIR__.'/../app/Views/404.phtml'))
 				return require_once(__DIR__.'/../app/Views/404.phtml');
 			else
-				echo 'Error: route path not found';
+				die('Error: route path not found');
 		}
 
 		public static function isNotEmpty($input) {

@@ -32,7 +32,7 @@
 					return $pdo;
 
 				} catch (PDOException $exception) {
-					die('Erro ao conectar');
+					die('failed to connect to database.');
 				}
 				
 			} else {
@@ -49,7 +49,7 @@
 					return $pdo;
 
 				} catch (PDOException $exception) {
-					die('Erro ao conectar');
+					die('failed to connect to database.');
 				}
 
 			}

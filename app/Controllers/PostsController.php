@@ -25,7 +25,7 @@
 		public function show($id) {
 			$this->view->post = $this->post->find($id);
 
-			if(isset($this->view->post->title)) {
+			if(Container::isNotEmpty($this->view->post)) {
 				$this->setPageTitle($this->view->post->title.' | MVC Framework');
 				return $this->renderView('posts/show', 'layout');
 			} else {
@@ -41,14 +41,38 @@
 
 		public function store($request) {
 			$data = [
-				'title'   => $request->post->title,
-				'content' => $request->post->content
+				'title'   => Container::checkInput($request->post->title),
+				'content' => Container::checkInput($request->post->content)
 			];
 
 			if($this->post->create($data))
 				Redirect::route('/posts');
 			else
 				die('Error: Create a new post has failed.');
+		}
+
+		public function edit($id) {
+			$this->view->post = $this->post->find($id);
+			
+			if(Container::isNotEmpty($this->view->post)) {
+				$this->setPageTitle('Edit Post - '.$this->view->post->title);
+				return $this->renderView('posts/edit', 'layout');
+			}
+			
+			return $this->renderView('404');			
+		}
+
+		public function update($id, $request) {
+			/*$data = [
+				'title'   => Container::checkInput($request->post->title),
+				'content' => Container::checkInput($request->post->content)
+			];
+
+			if($this->post->update($data, $id))
+				Redirect::route('/posts');
+			else
+				die('Error: Post update failed.');*/
+
 		}
 
 
