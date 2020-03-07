@@ -49,12 +49,10 @@
 					$oldString .= $params[$y].',';
 					$newString  = substr($oldString, 0, strlen($oldString) - 1);
 				}
-
-				print_r($getValue);
-
+				
 				$getValue   = explode(',', $newString);
 				$getValue[] = $this->getRequest();
-				
+
 				call_user_func_array(array($controller, $action), $getValue);
 
 			} else {

@@ -63,7 +63,7 @@
 		}
 
 		public function update($id, $request) {
-			/*$data = [
+			$data = [
 				'title'   => Container::checkInput($request->post->title),
 				'content' => Container::checkInput($request->post->content)
 			];
@@ -71,7 +71,7 @@
 			if($this->post->update($data, $id))
 				Redirect::route('/posts');
 			else
-				die('Error: Post update failed.');*/
+				die('Error: Post update failed.');
 
 		}
 
