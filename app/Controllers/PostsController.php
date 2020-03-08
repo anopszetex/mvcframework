@@ -75,6 +75,13 @@
 
 		}
 
+		public function delete($id) {
+			if($this->post->delete(['id' => $id]))
+				Redirect::route('/posts');
+			else
+				die('Error: Post delete failed.');
+		}
+
 
 	}
 

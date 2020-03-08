@@ -54,6 +54,30 @@
 			return $result;
 		}
 
+		public function delete(array $data) {
+			$data   = $this->prepareDataDelete($data);
+			$stmt   = $this->pdo->prepare($data[0]);
+			$result = $stmt->execute($data[1]);
+			$stmt->closeCursor();
+			return $result;
+		}
+
+		private function prepareDataDelete(array $data) {
+			$query = "DELETE FROM `{$this->table}` ";
+			$where = ' WHERE ';
+
+			foreach($data as $key => $value) {
+				$query .= "{$where} {$key} = :$key";
+				$where = " AND ";
+			}
+
+			foreach($data as $key2 => $value2) {
+				$getValues[':'.$key2] = $value2;
+			}
+
+			return [$query, $getValues];
+		}
+
 		private function prepareDataUpdate(array $data, $id) {
 			$columns = '';
 			$i 		 = 1;
