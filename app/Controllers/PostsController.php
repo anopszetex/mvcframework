@@ -4,6 +4,7 @@
 	use Core\BaseController;
 	use Core\Container;
 	use Core\Redirect;
+	use Core\Session;
 
 	class PostsController extends BaseController {
 
@@ -15,6 +16,16 @@
 		}
 
 		public function index() {
+			if(Session::get('success')) {
+				$this->view->success = Session::get('success');
+				Session::destroy(['success']);
+			}
+
+			if(Session::get('errors')) {
+				$this->view->errors = Session::get('errors');
+				Session::destroy(['errors']);
+			}
+
 			$this->setPageTitle('Posts');
 
 			$this->view->posts = $this->post->All();
@@ -46,9 +57,9 @@
 			];
 
 			if($this->post->create($data))
-				Redirect::route('/posts');
+				return Redirect::route('/posts', ['success' => ['Post created successfully']]);
 			else
-				die('Error: Create a new post has failed.');
+				return Redirect::route('/posts', ['errors'  => ['Create a new post has failed']]);
 		}
 
 		public function edit($id) {
@@ -69,17 +80,16 @@
 			];
 
 			if($this->post->update($data, $id))
-				Redirect::route('/posts');
+				return Redirect::route('/posts', ['success' => ['Post updated successful']]);
 			else
-				die('Error: Post update failed.');
-
+				return Redirect::route('/posts', ['errors'  => ['Post update failed']]);
 		}
 
 		public function delete($id) {
 			if($this->post->delete(['id' => $id]))
-				Redirect::route('/posts');
+				return Redirect::route('/posts', ['success' => ['Post deleted successful']]);
 			else
-				die('Error: Post delete failed.');
+				return Redirect::route('/posts', ['errors'  => ['Post delete failed']]);
 		}
 
 

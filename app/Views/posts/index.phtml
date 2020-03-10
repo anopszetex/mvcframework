@@ -1,7 +1,9 @@
 <div class="container my-5">
-
 	<a href="/post/create" class="btn btn-primary mb-1 float-right">New post</a>
 	<h1><?= $this->getPageTitle(); ?></h1>
+
+	<?= $this->renderView('/alerts/_success'); ?>
+	<?= $this->renderView('/alerts/_errors'); ?>
 
 	<?php   
 		foreach($this->view->posts as $post):

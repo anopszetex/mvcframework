@@ -25,11 +25,8 @@
 		protected function renderView($viewPath, $layoutPath = null) {
 			$this->viewPath   = $viewPath;
 			$this->layoutPath = $layoutPath;
-			
-			if($layoutPath)
-				$this->layout();
-			else
-				$this->content();
+
+			return (($layoutPath) ? $this->layout() : $this->content());
 		}
 
 		protected function content() {
@@ -41,7 +38,7 @@
 
 		protected function layout() {
 			if(file_exists($this->basePath.$this->layoutPath.'.phtml'))
-			    require_once($this->basePath.$this->layoutPath.'.phtml');
+			    return require_once($this->basePath.$this->layoutPath.'.phtml');
 			else
 				die('Error: Layout path not found');
 		}
