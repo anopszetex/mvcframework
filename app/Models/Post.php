@@ -9,8 +9,8 @@
 
 		public function rules() {
 			return [
-				'title'   => 'required',
-				'content' => 'required'
+				'title'   => 'min:2',
+				'content' => 'regex:/^[a-zA-z0-9,\.\s]+$/'
 			];
 		}
 

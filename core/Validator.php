@@ -11,27 +11,57 @@
 
 			$errors = null;
 
-			foreach($rules as $rulesKey => $rulesValue) {
+			foreach($rules as $ruleKey => $ruleValue) {
 
-				foreach($data as $dataKey => $dataValue) {
-					if($rulesKey === $dataKey) {
+				if(stristr($ruleValue, ':')) {
+					$items = explode(':', $ruleValue);
 
-						switch(strtolower($rulesValue)) {
+					foreach($data as $dataKey => $dataValue) {
+						if($ruleKey === $dataKey) {
 
-							case 'required':
-								if(empty(Container::checkInput($dataValue)))
-									$errors["$rulesKey"] = "The field {$rulesKey} are required";
-							break;
+							switch($items[0]) {
+								case'min':
+									if(strlen($dataValue) < $items[1])
+										$errors["$ruleKey"] = "Use at least {$items[1]} characters";
+								break;
 
-							case 'email':
-								if(!filter_var(Container::checkInput($dataValue), FILTER_VALIDATE_EMAIL))
-									$errors["$rulesKey"] = "The {$rulesKey} field is invalid";
-							break;
+								case 'max':
+									if(strlen($dataValue) > $items[1])
+										$errors["$ruleKey"] = "The {$ruleKey} must be at least {$items[1]} characters long";
+								break;
+
+								case 'regex':
+									if(!preg_match($items[1], $dataValue))
+										$errors["$ruleKey"] = "{$ruleKey} invalid field";
+								break;
+							}
+						}
+					}
+
+				} else {
+
+					foreach($data as $dataKey => $dataValue) {
+						if($ruleKey === $dataKey) {
+
+							switch(strtolower($ruleValue)) {
+
+								case 'required':
+									if(empty(Container::checkInput($dataValue)))
+										$errors["$ruleKey"] = "The field {$ruleKey} are required";
+								break;
+
+								case 'email':
+									if(!filter_var(Container::checkInput($dataValue), FILTER_VALIDATE_EMAIL))
+										$errors["$ruleKey"] = "The {$ruleKey} field is invalid";
+								break;
+
+							}
 
 						}
-
 					}
+
 				}
+
 
 			}
 
