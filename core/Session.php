@@ -2,7 +2,7 @@
 	namespace Core;
 
 	/*
-		classe that manipulate a session
+		classe that manipulate the session
 	*/
 
 	class Session {

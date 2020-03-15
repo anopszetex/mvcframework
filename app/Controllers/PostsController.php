@@ -5,6 +5,7 @@
 	use Core\Container;
 	use Core\Redirect;
 	use Core\Session;
+	use Core\Validator;
 
 	class PostsController extends BaseController {
 
@@ -52,8 +53,8 @@
 
 		public function store($request) {
 			$data = [
-				'title'   => Container::checkInput($request->post->title),
-				'content' => Container::checkInput($request->post->content)
+				'title'   => $request->post->title,
+				'content' => $request->post->content
 			];
 
 			if($this->post->create($data))
@@ -63,6 +64,16 @@
 		}
 
 		public function edit($id) {
+			if(Session::get('errors')) {
+				$this->view->errors = Session::get('errors');
+				Session::destroy(['errors']);
+			}
+
+			if(Session::get('inputs')) {
+				$this->view->inputs = Session::get('inputs');
+				Session::destroy(['inputs']);
+			}
+
 			$this->view->post = $this->post->find($id);
 			
 			if(Container::isNotEmpty($this->view->post)) {
@@ -75,9 +86,12 @@
 
 		public function update($id, $request) {
 			$data = [
-				'title'   => Container::checkInput($request->post->title),
-				'content' => Container::checkInput($request->post->content)
+				'title'   => $request->post->title,
+				'content' => $request->post->content
 			];
+
+			if(Validator::make($data, $this->post->rules()))
+				return Redirect::route('/post/'.$id.'/edit');
 
 			if($this->post->update($data, $id))
 				return Redirect::route('/posts', ['success' => ['Post updated successful']]);
